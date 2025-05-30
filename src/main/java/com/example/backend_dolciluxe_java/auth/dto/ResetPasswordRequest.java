@@ -3,8 +3,8 @@ package com.example.backend_dolciluxe_java.auth.dto;
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
-    private String name;
+public class ResetPasswordRequest {
     private String email;
-    private String password;
+    private String newPassword;
+    private String otp;
 }
