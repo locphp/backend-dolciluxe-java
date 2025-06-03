@@ -1,11 +1,13 @@
 package com.example.backend_dolciluxe_java.product;
 
+import com.example.backend_dolciluxe_java.product.dto.ProductResponse;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -13,23 +15,27 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> getAll() {
-        return productRepository.findByIsDeletedFalse();
+    public List<ProductResponse> getAll() {
+        return productRepository.findByIsDeletedFalse()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public Product getById(String id) {
-        return productRepository.findById(new ObjectId(id))
+    public ProductResponse getById(String id) {
+        Product product = productRepository.findById(new ObjectId(id))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
+        return toResponse(product);
     }
 
-    public Product create(Product product) {
+    public ProductResponse create(Product product) {
         product.setIsDeleted(false);
         product.setCreatedAt(Instant.now());
         product.setUpdatedAt(Instant.now());
-        return productRepository.save(product);
+        return toResponse(productRepository.save(product));
     }
 
-    public Product update(String id, Product productData) {
+    public ProductResponse update(String id, Product productData) {
         Product product = productRepository.findById(new ObjectId(id))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
@@ -41,7 +47,7 @@ public class ProductService {
         product.setPrice(productData.getPrice());
         product.setUpdatedAt(Instant.now());
 
-        return productRepository.save(product);
+        return toResponse(productRepository.save(product));
     }
 
     public void delete(String id) {
@@ -52,19 +58,41 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public Product restore(String id) {
+    public ProductResponse restore(String id) {
         Product product = productRepository.findById(new ObjectId(id))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         product.setIsDeleted(false);
         product.setDeletedAt(null);
-        return productRepository.save(product);
+        return toResponse(productRepository.save(product));
     }
 
-    public List<Product> getByType(String typeId) {
-        return productRepository.findByProductTypeAndIsDeletedFalse(new ObjectId(typeId));
+    public List<ProductResponse> getByType(String typeId) {
+        return productRepository.findByProductTypeAndIsDeletedFalse(new ObjectId(typeId))
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
-    public List<Product> getDeleted() {
-        return productRepository.findByIsDeletedTrue();
+    public List<ProductResponse> getDeleted() {
+        return productRepository.findByIsDeletedTrue()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    private ProductResponse toResponse(Product product) {
+        return ProductResponse.builder()
+                .id(product.get_id().toHexString())
+                .productName(product.getProductName())
+                .description(product.getDescription())
+                .imageLink(product.getImageLink())
+                .productType(product.getProductType() != null ? product.getProductType().toHexString() : null)
+                .quantity(product.getQuantity())
+                .price(product.getPrice())
+                .isDeleted(product.getIsDeleted())
+                .deletedAt(product.getDeletedAt())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.backend_dolciluxe_java.product;
 
+import com.example.backend_dolciluxe_java.product.dto.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,22 +14,22 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAll() {
+    public List<ProductResponse> getAll() {
         return productService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable String id) {
+    public ProductResponse getById(@PathVariable String id) {
         return productService.getById(id);
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
+    public ProductResponse create(@RequestBody Product product) {
         return productService.create(product);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable String id, @RequestBody Product product) {
+    public ProductResponse update(@PathVariable String id, @RequestBody Product product) {
         return productService.update(id, product);
     }
 
@@ -39,17 +40,17 @@ public class ProductController {
     }
 
     @PatchMapping("/restore/{id}")
-    public Product restore(@PathVariable String id) {
+    public ProductResponse restore(@PathVariable String id) {
         return productService.restore(id);
     }
 
     @GetMapping("/by-type/{typeId}")
-    public List<Product> getByType(@PathVariable String typeId) {
+    public List<ProductResponse> getByType(@PathVariable String typeId) {
         return productService.getByType(typeId);
     }
 
     @GetMapping("/trash")
-    public List<Product> getDeleted() {
+    public List<ProductResponse> getDeleted() {
         return productService.getDeleted();
     }
 }
