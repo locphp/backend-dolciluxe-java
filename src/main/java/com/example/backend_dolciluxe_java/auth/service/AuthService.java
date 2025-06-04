@@ -10,7 +10,7 @@ public interface AuthService {
 
     ResponseEntity<?> refreshToken(RefreshTokenRequest request);
 
-    ResponseEntity<?> logout(String token);
+    ResponseEntity<?> logout();
 
     ResponseEntity<?> forgotPassword(ForgotPasswordRequest request);
 

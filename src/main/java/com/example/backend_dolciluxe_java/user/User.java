@@ -37,6 +37,11 @@ public class User {
     @Builder.Default
     private Date updatedAt = new Date();
 
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     // thêm phương thức getters và setters nếu cần
     public String getId() {
         return id;
@@ -110,7 +115,7 @@ public class User {
         this.isActive = isActive;
     }
 
-    public Boolean getIsDeleted() {
+    public Boolean isDeleted() {
         return isDeleted;
     }
 

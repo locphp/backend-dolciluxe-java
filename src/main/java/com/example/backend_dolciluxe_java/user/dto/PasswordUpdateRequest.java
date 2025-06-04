@@ -6,4 +6,13 @@ import lombok.Data;
 public class PasswordUpdateRequest {
     private String currentPassword;
     private String newPassword;
+
+    // tạo hàm get
+    public String getCurrentPassword() {
+        return currentPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
 }
