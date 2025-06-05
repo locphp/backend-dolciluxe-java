@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/api/claid")
+@RequestMapping("/api/protected")
 public class AIController {
 
     @Autowired
@@ -25,22 +24,27 @@ public class AIController {
     private Cloudinary cloudinary;
 
 
-    @PostMapping("/edit")
-    public String editImageClaidForDesign(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/edit-image")
+    public ResponseEntity<?> editImageClaidForDesign(@RequestParam("file") MultipartFile file) {
         try {
             ResponseEntity<String> response = aiService.editImageClaidForDesign(file);
             ObjectMapper responseMapper = new ObjectMapper();
             JsonNode responseJson = responseMapper.readTree(response.getBody());
             JsonNode fileUrlNode = responseJson.get("data").get("output").get("tmp_url");
             String fileUrl = fileUrlNode.asText();
-            return fileUrl;
-        } catch(JsonProcessingException e) {
-            return e.getMessage();
+            // return fileUrl;
+            return ResponseEntity.ok(Map.of(
+                "file_url", fileUrl
+            ));
+        } catch(Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                "message", e.getMessage()
+            ));
         }
     }
 
-    @PostMapping("/gererate")
-    public String generateImageClaid(@RequestBody String message) {
+    @PostMapping("/generate-image")
+    public ResponseEntity<?> generateImageClaid(@RequestBody String message) {
         try {
             ResponseEntity<String> response = aiService.generateImageClaid(message);
             ObjectMapper responseMapper = new ObjectMapper();
@@ -48,13 +52,18 @@ public class AIController {
             JsonNode outputArray = responseJson.get("data").get("output");
             JsonNode firstOutput = outputArray.get(0);
             String fileUrl = firstOutput.get("tmp_url").asText();
-            return fileUrl;
-        } catch(JsonProcessingException e) {
-            return e.getMessage();
+            // return fileUrl;
+            return ResponseEntity.ok(Map.of(
+                "file_url", fileUrl
+            ));
+        } catch(Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                "message", e.getMessage()
+            ));
         }
     }
-    @PostMapping("/gererate-admin")
-    public String generateImageClaidToAdmin(@RequestBody String message) {
+    @PostMapping("/generate-image-admin")
+    public ResponseEntity<?> generateImageClaidToAdmin(@RequestBody String message) {
         try {
             ResponseEntity<String> response = aiService.generateImageClaidToAdmin(message);
             ObjectMapper responseMapper = new ObjectMapper();
@@ -62,9 +71,14 @@ public class AIController {
             JsonNode outputArray = responseJson.get("data").get("output");
             JsonNode firstOutput = outputArray.get(0);
             String fileUrl = firstOutput.get("tmp_url").asText();
-            return fileUrl;
-        } catch(JsonProcessingException e) {
-            return e.getMessage();
+            // return fileUrl;
+            return ResponseEntity.ok(Map.of(
+                "file_url", fileUrl
+            ));
+        } catch(Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                "message", e.getMessage()
+            ));
         }
     }
     

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class AIService {
-  @Autowired
+  // @Autowired
   private final RestTemplate restTemplate = new RestTemplate();
 
   @Value("${claid.upload.url}")
@@ -255,7 +255,7 @@ public class AIService {
   }
 
   private String buildRequestToAdmin(String adminInput) {
-    String message = "Role: you're a professional baker. Task: identify 4 common characteristics of the 3 types of cakes mentioned in the user input.User input: '%s'. Response format: only the English text describing the 4 characteristics.".formatted(adminInput);
+    String message = "Role: you're a professional baker. Task: identify 4 common characteristics of the 3 types of cakes mentioned in the user input. User input: '%s'. Response format: only the English text describing the 4 characteristics.".formatted(adminInput);
     return """
             {
               "contents": [
