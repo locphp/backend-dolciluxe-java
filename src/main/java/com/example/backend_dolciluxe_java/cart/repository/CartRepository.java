@@ -1,13 +1,14 @@
-// package com.example.backend_dolciluxe_java.cart.repository;
+package com.example.backend_dolciluxe_java.cart.repository;
 
-// package com.example.backend_dolciluxe_java.cart.repository;
+import com.example.backend_dolciluxe_java.cart.model.Cart;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-// import com.example.backend_dolciluxe_java.cart.model.Cart;
-// import com.example.backend_dolciluxe_java.user.model.User;
-// import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-// import java.util.Optional;
+@Repository
+public interface CartRepository extends MongoRepository<Cart, String> {
+    Optional<Cart> findByUserId(String userId);
 
-// public interface CartRepository extends JpaRepository<Cart, Long> {
-//     Optional<Cart> findByUser(User user);
-// }
+    void deleteByUserId(String userId);
+}

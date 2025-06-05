@@ -33,7 +33,9 @@ public class SecurityConfig {
                                 "/api/auth/login",
                                 "/api/auth/refresh-token",
                                 "/api/users/**",
-                                "/api/product/**")
+                                "/api/product/**",
+                                "/api/cart/**",
+                                "/api/cart")
                         .permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
