@@ -35,4 +35,12 @@ public class Product {
 
     @LastModifiedDate
     private Instant updatedAt;
+
+    public String getId() {
+        return _id != null ? _id.toHexString() : null;
+    }
+
+    public void setId(String id) {
+        this._id = id != null ? new ObjectId(id) : null;
+    }
 }
