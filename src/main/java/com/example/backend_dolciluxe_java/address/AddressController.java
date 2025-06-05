@@ -1,39 +1,48 @@
 package com.example.backend_dolciluxe_java.address;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import com.example.backend_dolciluxe_java.address.service.AddressService;
+
+import lombok.RequiredArgsConstructor;
+
+import com.example.backend_dolciluxe_java.address.dto.*;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/address")
+@RequiredArgsConstructor
+
 public class AddressController {
+    private final AddressService addressService;
 
-    @Autowired
-    private AddressService addressService;
-
-    // Dùng userId tạm thời truyền trong query/body (vì chưa có auth)
     @PostMapping
-    public Address create(@RequestParam String userId, @RequestBody Address address) {
-        return addressService.createAddress(userId, address);
+    public ResponseEntity<?> createAddress(@RequestBody CreateAddressRequest request) {
+        return addressService.createAddress(request);
+
     }
 
     @GetMapping
-    public List<Address> getAll(@RequestParam String userId) {
-        return addressService.getAllAddress(userId);
+    public ResponseEntity<?> getAllAddresses() {
+        return addressService.getAllAddresses();
     }
 
-    @PutMapping("/{id}")
-    public Address update(@PathVariable String id,
-                          @RequestParam String userId,
-                          @RequestBody Address address) {
-        return addressService.updateAddress(id, userId, address);
+    @PutMapping("/{addressId}")
+    public ResponseEntity<?> updateAddress(@PathVariable String addressId, @RequestBody UpdateAddressRequest request) {
+        return addressService.updateAddress(addressId, request);
     }
 
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id,
-                         @RequestParam String userId) {
-        addressService.deleteAddress(id, userId);
-        return "Delete success";
+    @DeleteMapping("/{addressId}")
+    public ResponseEntity<?> deleteAddress(@PathVariable String addressId) {
+        return addressService.deleteAddress(addressId);
     }
 }
