@@ -5,9 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.bson.types.ObjectId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
@@ -18,10 +16,9 @@ import java.util.Date;
 @Builder
 public class Address {
     @Id
-    @JsonIgnore // Ẩn trường gốc khi trả về JSON
-    private ObjectId _id;
+    private String id;
 
-    private ObjectId user;
+    private String user;
     private String fullName;
     private String phone;
     private String province;
@@ -36,9 +33,4 @@ public class Address {
     @LastModifiedDate
     private Date updatedAt;
 
-    // Getter để trả về _id là chuỗi khi serialize sang JSON
-    @JsonProperty("_id")
-    public String get_id_str() {
-        return _id != null ? _id.toHexString() : null;
-    }
 }
