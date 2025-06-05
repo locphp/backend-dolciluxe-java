@@ -1,5 +1,10 @@
 package com.example.backend_dolciluxe_java.auth.dto;
 
-public class RegisterRequest {
+import lombok.Data;
 
+@Data
+public class RegisterRequest {
+    private String name;
+    private String email;
+    private String password;
 }
