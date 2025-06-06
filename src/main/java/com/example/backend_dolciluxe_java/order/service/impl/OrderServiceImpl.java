@@ -47,6 +47,16 @@ public class OrderServiceImpl implements OrderService {
         throw new RuntimeException("User not authenticated");
     }
 
+    // kiểm tra có phải là admin hay không (isAdmin = true)
+    private boolean isAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            User user = userRepository.findById(getCurrentUserId()).orElse(null);
+            return user != null && user.isAdmin();
+        }
+        return false;
+    }
+
     @Override
     public ResponseEntity<ApiResponse<?>> createOrder(CreateOrderRequest request) {
         try {
@@ -185,6 +195,10 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity<ApiResponse<?>> updateOrderStatus(String orderId, UpdateOrderStatusRequest request) {
         try {
             String userId = getCurrentUserId();
+            if (!isAdmin()) {
+                return ResponseEntity.status(403).body(
+                        new ApiResponse<>(403, "You do not have permission to update order status", null));
+            }
             Optional<Order> orderOptional = orderRepository.findById(orderId);
 
             if (orderOptional.isEmpty()) {

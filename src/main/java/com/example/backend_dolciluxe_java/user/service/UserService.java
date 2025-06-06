@@ -1,14 +1,15 @@
 package com.example.backend_dolciluxe_java.user.service;
 
 import com.example.backend_dolciluxe_java.user.dto.PasswordUpdateRequest;
-import com.example.backend_dolciluxe_java.user.User;
-
-import java.util.List;
+import com.example.backend_dolciluxe_java.user.dto.UserUpdateRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    List<User> getAllUsers();
+    ResponseEntity<?> getAllUsers();
 
-    User getCurrentUser();
+    ResponseEntity<?> getCurrentUser();
 
-    void updatePassword(PasswordUpdateRequest request);
+    ResponseEntity<?> updatePassword(PasswordUpdateRequest request);
+
+    ResponseEntity<?> updateCurrentUser(UserUpdateRequest request);
 }
