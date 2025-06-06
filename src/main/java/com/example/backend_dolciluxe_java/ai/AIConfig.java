@@ -1,9 +1,10 @@
 package com.example.backend_dolciluxe_java.ai;
-import java.util.Map;
-
+import java.util.Map; 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+// import org.springframework.web.client.RestTemplate;
+
 import com.cloudinary.Cloudinary;
 
 @Configuration
@@ -28,4 +29,3 @@ public class AIConfig {
         return new Cloudinary(config);
     }
 }
-
