@@ -17,7 +17,6 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String googleId;
     @Builder.Default
     private String avatar = "";
     private String phone;
@@ -28,9 +27,6 @@ public class User {
     private Boolean isActive = true;
     @Builder.Default
     private Boolean isDeleted = false;
-
-    private String resetPasswordToken;
-    private Date resetPasswordExpire;
 
     @Builder.Default
     private Date createdAt = new Date();
@@ -75,14 +71,6 @@ public class User {
         this.password = password;
     }
 
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
-    }
-
     public String getAvatar() {
         return avatar;
     }
@@ -123,22 +111,6 @@ public class User {
         this.isDeleted = isDeleted;
     }
 
-    public String getResetPasswordToken() {
-        return resetPasswordToken;
-    }
-
-    public void setResetPasswordToken(String resetPasswordToken) {
-        this.resetPasswordToken = resetPasswordToken;
-    }
-
-    public Date getResetPasswordExpire() {
-        return resetPasswordExpire;
-    }
-
-    public void setResetPasswordExpire(Date resetPasswordExpire) {
-        this.resetPasswordExpire = resetPasswordExpire;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -161,15 +133,11 @@ public class User {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", googleId='" + googleId + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", phone='" + phone + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", isActive=" + isActive +
                 ", isDeleted=" + isDeleted +
-                ", resetPasswordToken='" + resetPasswordToken + '\'' +
-                ", resetPasswordExpire=" + resetPasswordExpire +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
