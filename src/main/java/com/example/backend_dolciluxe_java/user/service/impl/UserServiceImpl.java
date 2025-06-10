@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService {
         return User.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .phone(user.getPhone()) 
                 .email(user.getEmail())
                 .isAdmin(user.isAdmin())
                 .isDeleted(user.isDeleted())
